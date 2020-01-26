@@ -32,7 +32,7 @@
 
   export default  {
     name: 'nota',
-    props: ['todo','key','index'],
+    props: ['todo','index'],
     mounted () {
 
     },

@@ -15,20 +15,17 @@
                 <option value="4">Prioridad</option>
             </select>
         </div>
-        <ol class="col-12">
-            <transition-group name="fade-out-in" tag="ol">
-                <nota @prioridad-cambiada="forzarUpdate" @borrarNota="borrarNota" v-for="(todo,index) in ordenarNotas" :key='index' :index='index' :todo='todo'></nota>
-            </transition-group>
-        </ol>
+        <lista @prioridad-cambiada="forzarUpdate" @borrarNota="borrarNota" :ordenarNotas="ordenarNotas"></lista>
     </div>
 </template>
 
 <script>
-import nota from './components/nota.vue'
+
+import lista from './components/lista.vue'
 export default {
   name: 'notas',
   components: {
-    nota
+    lista
   },
   data(){
     return{
