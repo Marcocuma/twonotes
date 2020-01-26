@@ -3,9 +3,11 @@
   <li class="m-4">
       <div class="card">
           <div class="card-body row d-flex align-items-center">
-            <input type="checkbox" class="col-1" v-model='todo.marcada'>
-            <p class="col-9" v-bind:class='{terminada : todo.marcada}'> {{ todo.text }} </p>
-            <img src="../assets/trash.png" @click="eliminarNota(todo)"/>
+            <input type="checkbox" :id=index v-model='todo.marcada'/><label class="mb-0 col-1" :for=index ></label>
+            <p class="col-9 mb-0" v-bind:class='{terminada : todo.marcada}'> {{ todo.text }} </p>
+            <div class="col-2 d-flex justify-content-end">
+              <img src="../assets/trash.png"  @click="eliminarNota(todo)"/>
+            </div>
           </div>
           <div class="card-footer">
             <div id="tiempo"><span>La nota fue añadida hace {{ calculaTiempo(todo.tiempo) }} minutos</span></div>
@@ -30,7 +32,7 @@
 
   export default  {
     name: 'nota',
-    props: ['todo','key',],
+    props: ['todo','key','index'],
     mounted () {
 
     },
@@ -65,12 +67,40 @@
 
   }
   .card-body img{
-    height:3em;
-    width:3em;
+    height:5em;
+    min-width: 4em;
+    border-radius: 20%;
   }
   .card-body img:hover{
-    background-color: rgba(128, 46, 46, 0.507);
-    border-radius: 20%;
-    transition:1s
+    transition: all 1s ease;
+    background-image: linear-gradient(rgba(63,94,251,1) 17%, rgba(0,255,255,1) 100%);
+  }
+  .card-body p{
+    font-size: 2em;
+  }
+  .terminada{
+    text-decoration-line: line-through;
+    color: rgb(0, 255, 255);
+  }
+  input[type=checkbox] {
+    display:none;
+  }
+  
+  input[type=checkbox] + label
+  {
+    background: url("../assets/unchecked_checkbox.png") no-repeat;
+    background-size: contain;
+    height: 2.5em;
+    min-width: 2.5em;
+    display:inline-block;
+    padding: 0 0 0 0px;
+  }
+  input[type=checkbox]:checked + label
+  {
+    background: url("../assets/checked_checkbox.png") no-repeat;
+    background-size: contain;
+    height: 2.5em;
+    display:inline-block;
+    padding: 0 0 0 0px;
   }
 </style>
