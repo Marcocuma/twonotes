@@ -52,7 +52,7 @@
         },
         eliminarNota: function(key){
           this.$emit('borrarNota',key);
-        }
+        },
     },
     computed: {
 

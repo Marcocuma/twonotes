@@ -8,7 +8,7 @@
             <input type="text" class="w-100 m-4" v-on:keypress="add" v-model="textoFiltro" placeholder="Texto Filtro">
         </div>
         <div class="col-12 d-flex justify-content-around">
-            <p class="mb-0"><a v-on:click="compTodas" href="#">Completar todas </a>| Tienes un total de {{ totalNotas }} | Completadas: {{ notasCompletadas }} <a v-on:click="delCompletadas" href="#">Borrar Completadas</a></p>
+            <p class="mb-0"><a v-on:click="compTodas" href="#">{{ textoCompletar }}</a>| Tienes un total de {{ totalNotas }} | Completadas: {{ notasCompletadas }} <a v-on:click="delCompletadas" href="#">Borrar Completadas</a></p>
             <select v-model="orden">
                 <option value="1">Alfabetico</option>
                 <option value="2">Completadas</option>
@@ -39,6 +39,7 @@ export default {
         textoFiltro:'',
         orden:"4",
         completadas:false,
+        textoCompletar:'Completar todas' 
       }
   },
   mounted() {
@@ -55,7 +56,7 @@ export default {
             if(event.keyCode == 13){
                 this.notas.push({text:this.textoNota,marcada:false,tiempo:Date.now(),prioridad:-1});
                 this.completadas=false;
-                this.textoNota=''
+                this.textoNota='';
             }
         },
         delCompletadas: function(){
@@ -76,11 +77,13 @@ export default {
                     nota.marcada=true;
                 });
                 this.completadas=true;
+                this.textoCompletar="Descompletar todas"
             } else {
                 this.ordenarNotas.forEach((nota)=>{
                     nota.marcada=false;
                 });
                 this.completadas=false;
+                this.textoCompletar='Completar todas '
             }
         },
         borrarNota: function(todo){

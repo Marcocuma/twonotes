@@ -1,10 +1,9 @@
 <template lang="html">
 
-    <ol class="col-12">
-        <transition-group name="fade-out-in">
+        <transition-group name="slide-fade" tag='ol' appear class="col-12">
             <nota @prioridad-cambiada="forzarUpdate" @borrarNota="borrarNota" v-for="(todo,index) in ordenarNotas" :key='index' :index='index' :todo='todo'></nota>
         </transition-group>
-    </ol>
+
 
 </template>
 
@@ -39,8 +38,19 @@ import nota from './nota.vue'
 
 </script>
 
-<style scoped lang="css">
+<style lang="css">
   .lista {
 
+  }
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>
