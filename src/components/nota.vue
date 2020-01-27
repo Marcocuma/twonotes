@@ -2,15 +2,15 @@
 
   <li class="m-4">
       <div class="card">
-          <div class="card-body row d-flex align-items-center">
-            <input type="checkbox" :id=index v-model='todo.marcada'/><label class="mb-0 col-1" :for=index ></label>
-            <p class="col-9 mb-0" v-bind:class='{terminada : todo.marcada}'> {{ todo.text }} </p>
+          <div class="card-body row d-flex align-items-center justify-content-between">
+            <input type="checkbox" :id=index v-model='todo.marcada'/><label class="mb-0 col-2" :for=index ></label>
+            <p class="col-8 mb-0" v-bind:class='{terminada : todo.marcada}'> {{ todo.text }} </p>
             <div class="col-2 d-flex justify-content-end">
               <img src="../assets/trash.png"  @click="eliminarNota(todo)"/>
             </div>
           </div>
           <div class="card-footer">
-            <div id="tiempo"><span>La nota fue añadida hace {{ calculaTiempo(todo.tiempo) }} minutos</span></div>
+            <div id="tiempo"><span>Fecha: {{ calculaTiempo(todo.tiempo) }}</span></div>
             <div class="btn-group btn-group-toggle" >
                 <label class="btn btn-outline-success " v-bind:class="[ todo.prioridad == -1 ? 'active' : '']">
                     <input type="radio" @click="cambiarPrioridad(todo,-1)" id="option1">Baja
@@ -43,8 +43,8 @@
     },
     methods: {
        calculaTiempo: function(ti){
-            var tiempo=new Date(Date.now()-ti);
-            return tiempo.getMinutes()
+            var tiempo=new Date(ti);
+            return (tiempo.getDate() + "/" + (tiempo.getMonth() +1) + "/" + tiempo.getFullYear()+'  '+tiempo.getHours()+':'+tiempo.getMinutes()+':'+tiempo.getSeconds())
         },
         cambiarPrioridad: function(todo,number){
           todo.prioridad=number
@@ -68,7 +68,6 @@
   }
   .card-body img{
     height:5em;
-    min-width: 4em;
     border-radius: 20%;
   }
   .card-body img:hover{
@@ -89,17 +88,18 @@
   input[type=checkbox] + label
   {
     background: url("../assets/unchecked_checkbox.png") no-repeat;
-    background-size: contain;
-    height: 2.5em;
-    min-width: 2.5em;
+    background-size:contain;
+    height: 3em;
+    max-width: 3em;
     display:inline-block;
     padding: 0 0 0 0px;
   }
   input[type=checkbox]:checked + label
   {
     background: url("../assets/checked_checkbox.png") no-repeat;
-    background-size: contain;
-    height: 2.5em;
+    background-size:contain;
+    height: 3em;
+    max-width: 3em;
     display:inline-block;
     padding: 0 0 0 0px;
   }
