@@ -1,14 +1,14 @@
 <template lang="html">
 <section class="nav1">
   <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <img class="navbar-brand" id="navIcon" src="../assets/logoNav.png"/>
+      <img class="navbar-brand" id="navIcon" :src="[ pagina == 0 ? '../assets/logoNav.png' : '../assets/icon.png' ]">
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
           aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavId">
           <ul class="navbar-nav mt-lg-0">
-              <li class="nav-item">
+              <li class="nav-item" :class="[ pagina == 0 ? 'active' : '']" @click="cambiarPagina(0)">
                   <router-link class="nav-link" to="/olimpicos">Inicio<span class="sr-only">(current)</span></router-link>
               </li>
               <li class="nav-item dropdown">
@@ -28,7 +28,7 @@
               <li class="nav-item">
                   <a class="nav-link" href="#">Contacto</a>
               </li>
-              <li class="nav-item active">
+              <li class="nav-item" :class="[ pagina == 1 ? 'active' : '']" @click="cambiarPagina(1)">
                   <router-link class="nav-link" to="/notas">TwoNotes</router-link>
               </li>
           </ul>
@@ -146,7 +146,7 @@ window.$ = $
     },
     data () {
       return {
-
+          pagina:0
       }
     },
     methods: {
@@ -156,9 +156,11 @@ window.$ = $
         abrirModalRegis:function (){
             $('#modalRegistro').fadeIn();
         },
+        cambiarPagina: function(num){
+            this.pagina=num;
+        }
     },
     computed: {
-
     }
 }
 

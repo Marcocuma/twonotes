@@ -1,6 +1,6 @@
 <template lang="html">
 
-  <section class="main-nota row ">
+  <section class="main-nota row col-12">
         <div id="barraBusqueda" class="col-12 d-flex">
             <input type="text" class="w-100 m-4" required v-on:keypress="add" v-model="textoNota" placeholder="Texto Nota">
         </div>

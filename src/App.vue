@@ -46,6 +46,7 @@ ol{
 }
 body, #contenedor{
       min-height:100vh;
+      max-width: 100vw;
   }
 html{
     

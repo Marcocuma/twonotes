@@ -1,6 +1,6 @@
 <template lang="html">
 
-  <section class="olimpicos">
+  <section class="olimpicos col-12">
     <!--Hero image-->
         <div class="jumbotron jumbotron-fluid card d-flex align-items-center justify-content-center">
             <div class="container">
