@@ -30,9 +30,9 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <div id="panelNoticias" class="row m-0">
-      <noticia v-for="(contenido,index) in noticiasPanel" :key='index' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
-    </div>
+    <transition-group name='slide-fade' tag='div' id="panelNoticias" class="row m-0">
+      <noticia v-for="contenido in noticiasPanel" :key='contenido' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
+    </transition-group>
   </section>
 
 </template>
@@ -118,5 +118,16 @@
   .carousel-control-prev:hover{
     background: rgb(200,200,200);
     background: linear-gradient(90deg, rgba(200,200,200,0.5) 0%, rgba(190,190,190,0) 100%);
+  }
+  .slide-fade-enter-active {
+    transition: all .9s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 </style>

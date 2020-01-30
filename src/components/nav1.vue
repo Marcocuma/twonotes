@@ -141,7 +141,13 @@ window.$ = $
   export default  {
     name: 'nav1',
     props: [],
+    updated() {
+      localStorage.pagina=JSON.stringify(this.pagina);
+    },
     mounted () {
+        if (localStorage.pagina) {
+          this.pagina = JSON.parse(localStorage.pagina);
+        }
         $('#cerrarRegistro').on('click',function(){
             $('#modalRegistro').fadeOut();
         });
