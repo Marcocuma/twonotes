@@ -1,7 +1,9 @@
 <template lang="html">
 <section class="nav1">
   <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <img class="navbar-brand" id="navIcon" :src="[ pagina == 0 ? '../assets/logoNav.png' : '../assets/icon.png' ]">
+      <img class="navbar-brand" id="navIcon" src='../assets/icon.png' :class="[ pagina != 0 ? 'ocultar' : '' ]">
+      <img class="navbar-brand" id="navIcon" src='../assets/logoNav.png' :class="[ pagina != 1 ? 'ocultar' : '' ]">
+      <img class="navbar-brand" id="navIcon" src='../assets/noticiasIcon.png' :class="[ pagina != 2 ? 'ocultar' : '' ]">
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
           aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -30,6 +32,9 @@
               </li>
               <li class="nav-item" :class="[ pagina == 1 ? 'active' : '']" @click="cambiarPagina(1)">
                   <router-link class="nav-link" to="/notas">TwoNotes</router-link>
+              </li>
+              <li class="nav-item" :class="[ pagina == 2 ? 'active' : '']" @click="cambiarPagina(2)">
+                  <router-link class="nav-link" to="/noticias">Noticias</router-link>
               </li>
           </ul>
       </div>
@@ -111,13 +116,13 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form target="/" class="row">
+            <div class="modal-body container-fluid">
+                <form target="/" class="row m-0">
                     <label class="col-12" for="usuario">Nombre</label>
                     <input class="col-12" type="text" id="usuario" name="usuario">
                     <label class="col-12" for="contrasena">Contraseña</label>
                     <input class="col-12" type="password" id="contrasena" name="contrasena"/>
-                    <input class="col-12 btn btn-outline-primary" type="submit" name="login" value="Login"/>
+                    <input class="col-12 btn btn-outline-primary mt-4" type="submit" name="login" value="Login"/>
                 </form>
             </div>
             <div class="modal-footer">
@@ -174,5 +179,8 @@ window.$ = $
   #navIcon{
     width: auto;
     height: 2.5em;
+  }
+  .ocultar{
+      display:none;
   }
 </style>

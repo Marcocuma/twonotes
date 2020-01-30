@@ -1,6 +1,6 @@
 <template lang="html">
 
-        <transition-group name="slide-fade" tag='ol' appear class="col-12">
+        <transition-group name="slide-fade" tag='ol' class="col-12">
             <nota @prioridad-cambiada="forzarUpdate" @borrarNota="borrarNota" v-for="(todo,index) in ordenarNotas" :key='index' :index='index' :todo='todo'></nota>
         </transition-group>
 

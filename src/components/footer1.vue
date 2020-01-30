@@ -1,7 +1,7 @@
 <template lang="html">
 
   <section class="footer-1">
-    <footer class="d-flex justify-content-center mt-3  row">
+    <footer class="d-flex justify-content-center mt-3 col-12 row">
         <ul id="enlacesFooter" class="align-midle col-12 col-sm-6 order-sm-last d-flex justify-content-around">
             <a href="https://www.facebook.com/falloutboy/"><img class=" redes" src="../assets/face.svg"/></a>
             <a href="https://twitter.com/markknopfler?lang=es"><img class=" redes" src="../assets/twitter.svg"/></a>

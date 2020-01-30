@@ -2,7 +2,11 @@
 <div class="d-flex flex-column justify-content-between" id="contenedor">
     <div id="notas">
         <nav1></nav1>
-        <router-view></router-view>
+        <keep-alive>
+        <transition name="slide-fade">
+          <router-view></router-view>
+        </transition>
+        </keep-alive>
     </div>
     <footer1></footer1>
 </div>
@@ -62,6 +66,16 @@ html{
   color: #2c3e50;
   margin-top: 60px;
 }
-
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
 
 </style>
