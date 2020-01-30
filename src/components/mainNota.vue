@@ -138,9 +138,6 @@ import lista from './lista.vue'
 </script>
 
 <style scoped lang="css">
-  .main-nota {
-
-  }
   ol{
     list-style-type: none;
     padding:0
