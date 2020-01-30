@@ -1,8 +1,37 @@
 <template lang="html">
 
   <section class="noticias">
-    <div class="col-12 row m-0">
-      <noticia v-for="(contenido,index) in noticias" :key='index' :contenido='contenido'></noticia>
+    <div id="carouselId" class="carousel slide m-md-5" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselId" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselId" data-slide-to="1"></li>
+            <li data-target="#carouselId" data-slide-to="2"></li>
+            <li data-target="#carouselId" data-slide-to="3"></li>
+            <li data-target="#carouselId" data-slide-to="4"></li>
+            <li data-target="#carouselId" data-slide-to="5"></li>
+            <li data-target="#carouselId" data-slide-to="6"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item" :class="[ index == 0 ? 'active' : '' ]" v-for="(contenido,index) in noticiasCarousel" :key='index'>
+                <img :src='contenido.urlToImage' alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>{{ contenido.title }}</h5>
+                  <p>{{ contenido.description }}</p>
+                  <a name="readMore" id="leerMas" class="btn btn-primary" :href='contenido.url' role="button">Leer más</a>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselId" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselId" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div id="panelNoticias" class="row m-0">
+      <noticia v-for="(contenido,index) in noticiasPanel" :key='index' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
     </div>
   </section>
 
@@ -11,28 +40,54 @@
 <script lang="js">
   import noticia from './noticia.vue'
   const axios = require('axios')
+  import JQuery from 'jquery'
+  let $ = JQuery
   export default  {
     name: 'noticias',
     props: [],
     components: {
       noticia,
     },
+    updated () {
+      this.bloqueo=false;
+    },
     mounted () {
-      axios.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=e859accb681646698b5ba6f1e8b23ba8')
+      axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es&page=1&apiKey=e859accb681646698b5ba6f1e8b23ba8')
       .then(response =>{
         this.noticias = response.data.articles
       })
+      $(window).scroll(this.comprobarBloqueo);
     },
     data () {
       return {
-        noticias:[]
+        noticias:[],
+        bloqueo:false,
+        page:2,
       }
     },
     methods: {
-
+      comprobarBloqueo:function(){
+          if(!this.bloqueo&&this.page<6)
+              this.cargarNoticias();
+      },
+      cargarNoticias: function(){
+        if(($(window).scrollTop() + $(window).height() >= $(document).height()-100)){
+          this.bloqueo=true;
+          axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8')
+          .then(response =>{
+            this.noticias=this.noticias.concat(response.data.articles)
+          })
+          this.page++;
+        }
+      }
     },
     computed: {
-
+      noticiasCarousel:function(){
+        return this.noticias.slice(0,7)
+      },
+      noticiasPanel:function(){
+        return this.noticias.slice(7,this.noticias.length-1)
+      }
     }
 }
 
@@ -42,5 +97,26 @@
 <style scoped lang="css">
   .noticias {
 
+  }
+  .carousel-inner{
+      height: 40vw ;
+  }
+  .carousel-item img,.carousel-item{
+      height: 100%;
+      width: 100%;
+  }
+  .carousel-caption{
+    background-color: rgba(128, 128, 128, 0.596);
+  }
+  .carousel-caption p{
+    font-size: 0.7em;
+  }
+  .carousel-control-next:hover{
+    background: rgb(200,200,200);
+    background: linear-gradient(90deg, rgba(200,200,200,0) 0%, rgba(190,190,190,0.5) 100%);
+  }
+  .carousel-control-prev:hover{
+    background: rgb(200,200,200);
+    background: linear-gradient(90deg, rgba(200,200,200,0.5) 0%, rgba(190,190,190,0) 100%);
   }
 </style>

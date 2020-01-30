@@ -1,6 +1,6 @@
 <template lang="html">
 
-  <section class="footer-1">
+  <section class="footer-1 bg-light">
     <footer class="d-flex justify-content-center mt-3 col-12 row">
         <ul id="enlacesFooter" class="align-midle col-12 col-sm-6 order-sm-last d-flex justify-content-around">
             <a href="https://www.facebook.com/falloutboy/"><img class=" redes" src="../assets/face.svg"/></a>
