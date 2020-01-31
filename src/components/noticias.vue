@@ -1,7 +1,8 @@
 <template lang="html">
 
-  <section class="noticias">
-    <div id="carouselId" class="carousel slide m-md-5" data-ride="carousel">
+  <section class="noticias p-2">
+    <h1 class="text-center">Noticias</h1>
+    <div id="carouselId" class="carousel slide m-md-3" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselId" data-slide-to="0" class="active"></li>
             <li data-target="#carouselId" data-slide-to="1"></li>
@@ -12,12 +13,12 @@
             <li data-target="#carouselId" data-slide-to="6"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-            <div class="carousel-item" :class="[ index == 0 ? 'active' : '' ]" v-for="(contenido,index) in noticiasCarousel" :key='index'>
+            <div class="carousel-item" :class="[ index == 0 ? 'active' : '' ]" v-for="(contenido,index) in importantes" :key='index'>
                 <img :src='contenido.urlToImage' alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>{{ contenido.title }}</h5>
                   <p>{{ contenido.description }}</p>
-                  <a name="readMore" id="leerMas" class="btn btn-primary" :href='contenido.url' role="button">Leer más</a>
+                  <a name="readMore" id="leerMas" target="_blank" class="btn btn-primary" :href='contenido.url' role="button">Leer más</a>
                 </div>
             </div>
         </div>
@@ -30,8 +31,12 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <div class="row m-0">
+      <label for="filtro" class="m-0 col-12 col-md-2">Filtro: </label>
+      <input id="filtro" class="col-12 col-md-10" @keypress="aplicarFiltro" v-model="textoFiltro" placeholder="Pulsa intro para filtrar"/>
+    </div>
     <transition-group name='slide-fade' tag='div' id="panelNoticias" class="row m-0">
-      <noticia v-for="contenido in noticiasPanel" :key='contenido' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
+      <noticia v-for="contenido in noticias" :key='contenido' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
     </transition-group>
   </section>
 
@@ -52,17 +57,20 @@
       this.bloqueo=false;
     },
     mounted () {
-      axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es&page=1&apiKey=e859accb681646698b5ba6f1e8b23ba8')
+      axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page=1&apiKey=e859accb681646698b5ba6f1e8b23ba8')
       .then(response =>{
-        this.noticias = response.data.articles
+        this.noticias = response.data.articles.slice(7,this.noticias.length-1)
+        this.importantes = response.data.articles.slice(0,7)
       })
       $(window).scroll(this.comprobarBloqueo);
     },
     data () {
       return {
+        importantes:[],
         noticias:[],
         bloqueo:false,
         page:2,
+        textoFiltro:''
       }
     },
     methods: {
@@ -73,21 +81,37 @@
       cargarNoticias: function(){
         if(($(window).scrollTop() + $(window).height() >= $(document).height()-100)){
           this.bloqueo=true;
-          axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8')
+          var link;
+          if(this.textoFiltro)
+            link='https://newsapi.org/v2/everything?languaje=es&qInTitle='+this.textoFiltro
+          else
+            link='https://newsapi.org/v2/everything?languaje=es'
+          link+='&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
+          axios.get(link)
           .then(response =>{
             this.noticias=this.noticias.concat(response.data.articles)
           })
           this.page++;
         }
+      },
+      aplicarFiltro: function(){
+        if(event.keyCode == 13){
+          this.page=1
+          var link;
+          if(this.textoFiltro)
+            link='https://newsapi.org/v2/everything?languaje=es&qInTitle='+this.textoFiltro
+          else
+            link='https://newsapi.org/v2/everything?languaje=es'
+          link+='&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
+          axios.get(link)
+            .then(response =>{
+              this.noticias=response.data.articles.slice(7,this.noticias.length-1)
+            })
+          this.page++
+        }
       }
     },
     computed: {
-      noticiasCarousel:function(){
-        return this.noticias.slice(0,7)
-      },
-      noticiasPanel:function(){
-        return this.noticias.slice(7,this.noticias.length-1)
-      }
     }
 }
 
@@ -95,8 +119,9 @@
 </script>
 
 <style scoped lang="css">
+@import url('https://fonts.googleapis.com/css?family=Tinos&display=swap');
   .noticias {
-
+    font-family: 'Tinos', serif;
   }
   .carousel-inner{
       height: 40vw ;
