@@ -14,6 +14,8 @@
                 <option value="2">Completadas</option>
                 <option value="3">Incompletas</option>
                 <option value="4">Prioridad</option>
+                <option value="5">Nueva</option>
+                <option value="6">Antigüa</option>
             </select>
         </div>
         <lista @prioridad-cambiada="forzarUpdate" @borrarNota="borrarNota" :ordenarNotas="ordenarNotas"></lista>
@@ -50,7 +52,7 @@ import lista from './lista.vue'
       }
     },
     methods: {
-      add: function(event){
+        add: function(event){
             if(event.keyCode == 13){
                 this.notas.push({text:this.textoNota,marcada:false,tiempo:Date.now(),prioridad:-1});
                 this.completadas=false;
@@ -122,6 +124,22 @@ import lista from './lista.vue'
                     var a=nota1.prioridad
                     var b=nota2.prioridad
                     return a < b ? 1 : a == b ? 0 : -1
+                });
+            else if(this.orden=="5")
+                return this.notas.slice().filter((nota1)=>{
+                    return nota1.text.toLowerCase().includes(this.textoFiltro.toLowerCase())
+                }).sort((nota1,nota2)=>{
+                    var a=nota1.tiempo
+                    var b=nota2.tiempo
+                    return a < b ? 1 : a == b ? 0 : -1
+                });
+            else if(this.orden=="5")
+                return this.notas.slice().filter((nota1)=>{
+                    return nota1.text.toLowerCase().includes(this.textoFiltro.toLowerCase())
+                }).sort((nota1,nota2)=>{
+                    var a=nota1.tiempo
+                    var b=nota2.tiempo
+                    return a > b ? 1 : a == b ? 0 : -1
                 });
             return this.notas.slice().filter((nota1)=>{
                     return nota1.text.toLowerCase().includes(this.textoFiltro.toLowerCase())
