@@ -35,9 +35,9 @@
       <label for="filtro" class="m-0 col-12 col-md-2">Filtro: </label>
       <input id="filtro" class="col-12 col-md-10" @keypress="aplicarFiltro" v-model="textoFiltro" placeholder="Pulsa intro para filtrar"/>
     </div>
-    <transition-group name='slide-fade' tag='div' id="panelNoticias" class="row m-0">
-      <noticia v-for="contenido in noticias" :key='contenido' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
-    </transition-group>
+    <div class="row m-0">
+      <noticia v-for="contenido in noticias" :key='contenido.url' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
+    </div>
   </section>
 
 </template>
@@ -59,8 +59,8 @@
     mounted () {
       axios.get('https://newsapi.org/v2/everything?languaje=es&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page=1&apiKey=e859accb681646698b5ba6f1e8b23ba8')
       .then(response =>{
-        this.noticias = response.data.articles.slice(7,this.noticias.length-1)
         this.importantes = response.data.articles.slice(0,7)
+        this.noticias = response.data.articles.slice(7,response.data.articles.length-1)
       })
       $(window).scroll(this.comprobarBloqueo);
     },
@@ -86,7 +86,7 @@
             link='https://newsapi.org/v2/everything?languaje=es&qInTitle='+this.textoFiltro
           else
             link='https://newsapi.org/v2/everything?languaje=es'
-          link+='&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
+          link+='&domains=elpais.com,elmundo.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
           axios.get(link)
           .then(response =>{
             this.noticias=this.noticias.concat(response.data.articles)
@@ -105,7 +105,7 @@
           link+='&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
           axios.get(link)
             .then(response =>{
-              this.noticias=response.data.articles.slice(7,this.noticias.length-1)
+              this.noticias=response.data.articles.slice(7,response.data.articles-1)
             })
           this.page++
         }
