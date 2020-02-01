@@ -33,7 +33,7 @@
     </div>
     <div class="row m-0">
       <label for="filtro" class="m-0 col-12 col-md-2">Filtro: </label>
-      <input id="filtro" class="col-12 col-md-10" @keypress="aplicarFiltro" v-model="textoFiltro" placeholder="Pulsa intro para filtrar"/>
+      <input id="filtro" class="col-12 col-md-10" v-on:keypress="aplicarFiltro" v-model="textoFiltro" placeholder="Pulsa intro para filtrar"/>
     </div>
     <div class="row m-0">
       <noticia v-for="contenido in noticias" :key='contenido.url' :contenido='contenido' :clases='"card col-12 col-md-6 col-lg-4 col-xl-3 p-0 mt-3"'></noticia>
@@ -94,7 +94,7 @@
           this.page++;
         }
       },
-      aplicarFiltro: function(){
+      aplicarFiltro: function(event){
         if(event.keyCode == 13){
           this.page=1
           var link;
@@ -102,10 +102,10 @@
             link='https://newsapi.org/v2/everything?languaje=es&qInTitle='+this.textoFiltro
           else
             link='https://newsapi.org/v2/everything?languaje=es'
-          link+='&domains=elpais.com,elmundo.es,elcortodigital.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
+          link+='&domains=elpais.com,elmundo.es,ideal.es&page='+this.page+'&apiKey=e859accb681646698b5ba6f1e8b23ba8'
           axios.get(link)
             .then(response =>{
-              this.noticias=response.data.articles.slice(7,response.data.articles-1)
+              this.noticias=response.data.articles.slice(7,response.data.articles.length-1)
             })
           this.page++
         }
