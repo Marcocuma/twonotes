@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Mail</label>
-                        <input type="email" class="form-control" id="mail1" placeholder="Introduce el mail">
+                        <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" id="mail1" placeholder="Introduce el mail">
                     </div>
                     <div id="genero" class="form-check row">
                         <div class="col-6">
